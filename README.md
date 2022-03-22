@@ -3,6 +3,8 @@
 
 [Installing Gatling on Windows](#installing-gatling-on-windows)
 
+[Load, stress, spike and soak testing](#load-stress-spike-and-soak-testing)
+
 ------------------------
 ## Installing Gatling on Ubuntu (specifically on AWS EC2)
 
@@ -141,7 +143,7 @@ Navigate to the gatling bin folder and run your tests, adjusting the java code i
 
 ## Load, stress, spike and soak testing
 
-We can test websites by recording user input into a HAR file, convert this into a java file in gatling and then editing the java file.
+We can test websites by recording user input into a HAR file, convert this into a java file in gatling and then editing the java file as seen in the code below.
 
 ```java
 // spike test
