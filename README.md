@@ -138,3 +138,48 @@ Run recorder.bat from your gatling `bin` folder. Enter your generated HAR file a
 ![image](https://user-images.githubusercontent.com/98178943/158443140-df5871d4-5e11-4a6b-9ad9-92b38d32602f.png)
 
 Navigate to the gatling bin folder and run your tests, adjusting the java code if necessary.
+
+## Load, stress, spike and soak testing
+
+We can test websites by recording user input into a HAR file, convert this into a java file in gatling and then editing the java file.
+
+```java
+// spike test
+    setUp(
+            scn.injectOpen(
+
+                    atOnceUsers(0), // 2
+
+                    rampUsersPerSec(0).to(5).during(3), // 7
+
+                    rampUsersPerSec(5).to(2).during(3), // 7
+
+                    rampUsersPerSec(2).to(0).during(2), // 7
+                    rampUsersPerSec(0).to(8).during(3), // 7
+                    rampUsersPerSec(8).to(0).during(3), // 7
+                    nothingFor(3),
+                    rampUsersPerSec(0).to(8).during(3), // 7
+                    rampUsersPerSec(8).to(0).during(3) // 7
+
+
+            ).protocols(httpProtocol)
+    );
+
+//  Load Test
+        setUp(
+                scn.injectOpen(
+                        atOnceUsers(10), // 2
+                        rampUsers(100).during(10) // 3
+                ).protocols(httpProtocol)
+        );
+//      Stress Test
+    setUp(
+            scn.injectOpen(stressPeakUsers(500).during(300)).protocols(httpProtocol)
+    );
+//  Soak Test
+    setUp(
+            scn.injectOpen(
+                    constantUsersPerSec(20).during(1800)
+            ).protocols(httpProtocol)
+    );
+```
